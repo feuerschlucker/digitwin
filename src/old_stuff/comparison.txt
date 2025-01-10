@@ -1,0 +1,14 @@
+Wave  Ampli	  Yoke   SampleID Freq	Duration	Paste		
+
+# Vergleich Abstände
+SIN	4000	pure iron	S0014	50	-	-
+
+# Vergleich Frequenzen
+SIN	4000	pure iron	S0014	-	-	no
+
+# Vergleich Materialien
+SIN	4000	pure iron	-	50	-	no
+
+				
+
+	
