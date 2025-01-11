@@ -27,7 +27,7 @@ def select_database(self):
                                                                         max-width: 150px;
                                                                         height: 135px;}""")
 
-    file_name, _ = QFileDialog.getOpenFileName(self, 'Open Database File', '', 'Induction Files (*.induct)')
+    file_name, _ = QFileDialog.getOpenFileName(self, 'Open Database File', '', 'Induction Files (*.db)')
     self.database = file_name
     #
     if file_name:
