@@ -1,6 +1,7 @@
 import sys
 import numpy as np
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QFileDialog, QLabel, QComboBox
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, \
+    QPushButton, QWidget, QFileDialog, QLabel, QComboBox
 from load_db import get_selected_data
 import pyqtgraph as pg
 import pandas as pd
@@ -43,7 +44,6 @@ class MainApp(QMainWindow):
         # Maximize the window
         self.showMaximized()
 
-
 def load_db_layout(self):
     # Database loading UI
     main_layout = QVBoxLayout()
@@ -57,14 +57,12 @@ def load_db_layout(self):
     main_layout.addWidget(self.widgets_dict['load_db_button'])
     return main_layout
 
-
 def laod_widget_group1(self):
     names = [('S_SERIES', "S_NO"),
              ("TIM",  "OPERATOR"), ("ELAPSE", "F_NO")]
     widget = add_data_selection_dropdowns(
         self, names=names, background='#7682a6', label="Select Criteria")
     return widget
-
 
 def laod_widget_group2(self):
     names = [('MEAS_ID',)]  # Only include MEAS_ID
@@ -75,13 +73,11 @@ def laod_widget_group2(self):
     widget.setFixedHeight(50)  # Set smaller height for a single dropdown
     return widget
 
-
 def laod_widget_group3(self):
     names = [('RAW', "MR0"), ("STF", "STF_D")]
     widget = add_filetype_button(
         self, names=names, background='#7682a6', label="Select Data to be Displayed")
     return widget
-
 
 def load_data_layout(self):
     # Database loading UI
@@ -99,7 +95,6 @@ def load_data_layout(self):
         lambda: plot_raw(self))
 
     return main_layout
-
 
 def add_data_selection_dropdowns(self, names, background, label):
     def vertical_layout_with_dropdown(names):
@@ -127,7 +122,6 @@ def add_data_selection_dropdowns(self, names, background, label):
     main_widget.setStyleSheet(f"background-color: {background};"
                               f"max-height: 140px;")
     return main_widget
-
 
 def add_filetype_button(self, names, background, label):
     def vertical_layout_with_buttons(names):
@@ -164,7 +158,6 @@ def add_filetype_button(self, names, background, label):
 
     return main_widget
 
-
 def get_data_for_meas_id(self, meas_id, type):
     if not self.database:
         print("No database selected!")
@@ -180,7 +173,6 @@ def get_data_for_meas_id(self, meas_id, type):
 
     conn.close()
     return df
-
 
 def plot_raw(self):
     # Get the selected MEAS_ID
@@ -231,7 +223,6 @@ def plot_raw(self):
     plot_item.setAutoVisible(False)
     print(f"Plotted data for MEAS_ID: {selected_meas_id}")
 
-
 def plot_mr0(self):
     # Get the selected MEAS_ID
     selected_meas_id = self.widgets_dict['MEAS_ID'].currentText()
@@ -280,7 +271,6 @@ def plot_mr0(self):
     plot_item.enableAutoRange('xy', False)
     plot_item.setAutoVisible(False)
     print(f"Plotted data for MEAS_ID: {selected_meas_id}")
-
 
 def plot_stf(self, cum_or_diff):
     # Get the selected MEAS_ID
@@ -336,7 +326,6 @@ def plot_stf(self, cum_or_diff):
     plot_item.setAutoVisible(False)
     print(f"Plotted data for MEAS_ID: {selected_meas_id}")
 
-
 def build_query(self):
     # Generate a sine curve
     x = np.linspace(0, 2 * np.pi, 100)  # X values
@@ -350,12 +339,10 @@ def build_query(self):
 
     print("Plotted sine curve.")
 
-
 def load_master(db_filepath):
     conn = sqlite3.connect(db_filepath)
     df = pd.read_sql_query("SELECT * FROM MASTER", conn)
     return df
-
 
 def select_database(self):
     file_name, _ = QFileDialog.getOpenFileName(
@@ -381,7 +368,6 @@ def select_database(self):
     #                                                                     max-width: 150px;
     #                                                                     height: 135px;}""")
 
-
 def select_measurements_ids(self, name, index):
     combo_boxes = ["MEAS_ID", "S_SERIES", "S_NO",
                    "HEAT_C", "TIM",  "OPERATOR", "ELAPSE", "F_NO"]
@@ -393,14 +379,12 @@ def select_measurements_ids(self, name, index):
     self.widgets_dict['MEAS_ID'].clear()
     self.widgets_dict['MEAS_ID'].addItems(valid_mea_ids)
 
-
 def find_matching_measurement_ids(mp, all_conditions):
     matching_indices = []
     for index, details in mp.items():
         if all(str(details.get(key)) == value or value == '-' for key, value in all_conditions.items()):
             matching_indices.append(index)
     return matching_indices
-
 
 def load_measured_data(self):
     self.plot_widget.clear()
@@ -409,11 +393,9 @@ def load_measured_data(self):
     self.plot_widget.addItem(line)
     self.current_data_dict = get_selected_data(self)
 
-
 def keyPressEvent(self, event):
     if event.key() == Qt.Key_Escape:  # Press Escape to exit full screen
         self.showNormal()
-
 
 def get_close_button(self):
     main_layout = QVBoxLayout()
@@ -426,7 +408,6 @@ def get_close_button(self):
         self.close)  # Connect to the close method
     main_layout.addWidget(self.widgets_dict['close_button'])
     return main_layout
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
